@@ -403,7 +403,7 @@ class MulimgViewer (MulimgViewerGui):
             self.xy_magnifier = []
             self.refresh(event)
             self.SetStatusText_(["delete all box",  "-1", "-1", "-1"])
-        if len(self.xy_magnifier)==0:
+        if len(self.xy_magnifier) == 0:
             self.box_position.SetSelection(0)
 
     def up_img(self, event):
@@ -892,7 +892,7 @@ class MulimgViewer (MulimgViewerGui):
             row_col_one_img = [int(x) for x in row_col_one_img]
 
             if row_col_one_img[0] == -1 and row_col_one_img[1] == -1:
-                row_col_one_img= [1,1]
+                row_col_one_img = [1, 1]
                 row_col = self.ImgManager.layout_advice()
                 self.row_col.SetValue(str(row_col[0])+","+str(row_col[1]))
 
@@ -1021,9 +1021,8 @@ class MulimgViewer (MulimgViewerGui):
                     magnifier_out_scale,                    # 31
                     self.customfunc.Value,                  # 32
                     self.out_path_str,                      # 33
-                    img_value_range,                        # 34    
-                    ]                      
-
+                    img_value_range,                        # 34
+                    ]
 
     def show_img(self):
         if self.customfunc.Value and self.out_path_str == "":
@@ -1054,10 +1053,10 @@ class MulimgViewer (MulimgViewerGui):
             str(self.ImgManager.max_action_num-1))
 
         # Destroy the window to avoid memory leaks
-        try:
-            self.img_last.Destroy()
-        except:
-            pass
+        # try:
+        #     self.img_last.Destroy()
+        # except:
+        #     pass
 
         # show img
         if self.ImgManager.max_action_num > 0:
@@ -1080,10 +1079,19 @@ class MulimgViewer (MulimgViewerGui):
                 self.img_size = bmp.size
                 bmp = self.ImgManager.ImgF.PIL2wx(bmp)
 
-                self.img_panel.SetSize(
-                    wx.Size(self.img_size[0]+100, self.img_size[1]+100))
-                self.img_last = wx.StaticBitmap(parent=self.img_panel,
-                                                bitmap=bmp)
+                if self.img_panel.Size == self.img_size:
+                    # print('not')
+                    self.img_last.SetBitmap(bmp)
+                else:
+                    try:
+                        self.img_last.Destroy()
+
+                    except:
+                        pass
+                    self.img_panel.SetSize(
+                        wx.Size(self.img_size[0]+100, self.img_size[1]+100))
+                    self.img_last = wx.StaticBitmap(parent=self.img_panel,
+                                                    bitmap=bmp)
                 self.img_panel.Children[0].SetFocus()
                 self.img_panel.Children[0].Bind(
                     wx.EVT_LEFT_DOWN, self.img_left_click)
