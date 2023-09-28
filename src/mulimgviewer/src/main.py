@@ -926,9 +926,6 @@ class MulimgViewer (MulimgViewerGui):
                 0).split(',')
             magnifier_out_scale = [float(x) for x in magnifier_out_scale]
 
-            img_value_range = self.img_value_range.GetLineText(0).split(',')
-            img_value_range = [int(x) for x in img_value_range]
-
             if self.checkBox_auto_draw_color.Value:
                 # 10 colors built into the software
                 color_list = [
